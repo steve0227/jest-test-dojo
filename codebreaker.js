@@ -30,7 +30,8 @@ function generateRandom(){
 
 function guess(guessing){
     var response = ''
-    
+    var responseX = ''
+    var response_ = ''
     if(guessing=== undefined)
         return ERROR;
     sGuessing= guessing.toString();
@@ -44,11 +45,11 @@ function guess(guessing){
     var digitsCompare =numberToDigits(guessing)
     for (var i = 0; i < 4; i += 1) {
         if(digitsCompare[i]===digitsSecret[i]){
-            response +='X';
+            responseX +='X';
         }else{
             for (var j = 0; j < 4; j += 1) {
                 if(digitsCompare[i]===digitsSecret[j] && i!==j){
-                    response +='_';
+                    response_ +='_';
                 }
                 if(digitsCompare[i]===digitsCompare[j] && i!==j){
                     return ERROR
@@ -56,7 +57,7 @@ function guess(guessing){
             }
         }
     }
-
+    response=responseX+response_;
 
     return response
     
