@@ -1,12 +1,25 @@
 var secret;
 var digitsSecret; 
 var ERROR = 'ERROR'
-
+var game = false;
 function setSecret(){
     secret = 6789
     digitsSecret= numberToDigits(secret);
 }
+function getSecret(){
+    return secret
+}
 
+function setGame(){
+    randomSecret();
+    game=true;
+}
+function endGame(){
+    game=false;
+}
+function gameStatus(){
+    return game;
+}
 function randomSecret(){
     var band =true;
     while(band){
@@ -20,11 +33,12 @@ function randomSecret(){
                 }
             }
         }
+        
     }    
 }
 
 function generateRandom(){
-    const random = Math.floor(Math.random()*1000);
+    const random = Math.floor(Math.random()*10000);
     return random
 }
 
@@ -72,3 +86,7 @@ function numberToDigits(num){
 module.exports.guess = guess;
 module.exports.setSecret = setSecret;
 module.exports.randomSecret = randomSecret;
+module.exports.setGame = setGame;
+module.exports.endGame = endGame;
+module.exports.gameStatus = gameStatus;
+module.exports.getSecret = getSecret;
