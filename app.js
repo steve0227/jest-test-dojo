@@ -1,8 +1,9 @@
 const express = require('express');
 const app= express();
+const cors =require('cors')
 const cal = require('./calculator');
 const CodeBreaker = require('./codebreaker');
-
+app.use(cors())
 
 app.get('/add',(req,res)=>{
     res.json({
@@ -41,13 +42,13 @@ app.get('/codebreaker/guessing',(req,res)=>{
             CodeBreaker.endGame();
             
         }
-        res.json({
+        res.status(200).json({
             guessing: req.query.guess,
             result: cod
         });
                 
     }else{
-        res.json({
+        res.status(400).json({
             error: 'there is not a game in progress'
         })
     }
@@ -58,16 +59,15 @@ app.get('/codebreaker/start',(req,res)=>{
     {
         CodeBreaker.setGame();
         console.log(CodeBreaker.getSecret())
-        res.json({
+        res.status(200).json({
             //secret: CodeBreaker.getSecret(),
             message:'game start'
         })       
     }else{
-        res.json({
-            error: 'tehre is already a game in progress'
+        res.status(400).json({
+            error: 'there is already a game in progress'
         })
-    }
-           
+    }        
 });
 
 
