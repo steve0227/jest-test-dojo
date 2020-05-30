@@ -2,6 +2,7 @@ const app = require('./app');
 const supertest = require('supertest');
 const request = supertest(app);
 
+
 test('get the add endpoint', async done=>{
     const response = await request.get('/add?value1=2&value2=5');
     expect(response.status).toBe(200);
@@ -20,7 +21,9 @@ test('get the subtract endpoint', async done=>{
     done();
 })
 
-describe('get the codebreaker endpoint',()=>{
+
+
+describe('get the codebreaker endpoint with set secret 6789',()=>{
     test('/codebreaker?guess=1234', async done=>{
         const response = await request.get('/codebreaker?guess=1234');
         expect(response.status).toBe(200);
@@ -134,5 +137,52 @@ describe('get the codebreaker endpoint',()=>{
         expect(response.body.result).toBe('XX__')
         done();
     })
-
 })
+describe('get the codebreaker/guessing endpoint',()=>{
+    test('/codebreaker/guessing without a game start', async done=>{
+        
+        const response = await request.get('/codebreaker/guessing?guess=1234');
+        expect(response.status).toBe(400);
+        expect(response.type).toBe('application/json');
+        expect(response.body.result).not.toBeNull();
+        expect(response.body.error).toBe('there is not a game in progress')
+        done();
+    })
+    describe('get the codebreaker/start endpoint',()=>{
+    test('/codebreaker/start with no game start', async done=>{
+        const response = await request.get('/codebreaker/start');
+        expect(response.status).toBe(200);
+        expect(response.type).toBe('application/json');
+        expect(response.body.result).not.toBeNull();
+        expect(response.body.message).toBe('game start')
+        done();
+    })
+    test('/codebreaker/start with a game already start', async done=>{
+        const response1 = await request.get('/codebreaker/start');
+        const response = await request.get('/codebreaker/start');
+        expect(response.status).toBe(400);
+        expect(response.type).toBe('application/json');
+        expect(response.body.result).not.toBeNull();
+        expect(response.body.error).toBe('there is already a game in progress')
+        done();
+    })
+})
+    test('/codebreaker/guessing with a game already start', async done=>{
+        const response1 = await request.get('/codebreaker/start');
+        const response = await request.get('/codebreaker/guessing?guess=1234');
+        expect(response.status).toBe(200);
+        expect(response.type).toBe('application/json');
+        expect(response.body.result).not.toBeNull();
+//            expect(response.body.error).toBe('there is already a game in progress')
+        done();
+    })
+    
+})
+
+
+
+    
+    
+    
+
+    

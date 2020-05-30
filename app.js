@@ -16,14 +16,10 @@ app.get('/subtract',(req,res)=>{
         result: cal.subtract(parseInt(req.query.value1),parseInt(req.query.value2))
     });
 });
-/*todo en uno
+//para las pruebas
 app.get('/codebreaker',(req,res)=>{
+    CodeBreaker.setSecret()
     
-    if(!CodeBreaker.gameStatus())
-    {
-        CodeBreaker.setGame();
-    }
-    console.log(CodeBreaker.getSecret())
     var cod =CodeBreaker.guess(req.query.guess)
     if(cod==='XXXX')
     {
@@ -34,7 +30,7 @@ app.get('/codebreaker',(req,res)=>{
         result: cod
     });
 });
-*/
+
 app.get('/codebreaker/guessing',(req,res)=>{
     if(CodeBreaker.gameStatus()){
         var cod =CodeBreaker.guess(req.query.guess)
